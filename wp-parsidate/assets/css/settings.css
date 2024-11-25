@@ -1,220 +1,235 @@
-body {
-  background: #fff
+/**
+* Icons by: https://fontawesome.com/
+*/
+.wpp-team {
+	text-align: center;
+	padding: 50px 0;
 }
 
-.notice,
-div.error,
-div.updated {
-  position: relative;
-  border-radius: 5px;
-  box-shadow: 0 0 5px 0 #5a5a5a57;
-  border-right-width: 42px
+.wpp-team h1 {
+	font-size: 2.5em;
+	margin-bottom: 20px;
 }
 
-.notice:before,
-div.error:before,
-div.updated:before,
-.nav-tab-wrapper > a.nav-tab-active:after,
-.wpp-settings-wrap div.updated:after {
-  font-family: dashicons;
-  line-height: 1;
-  font-weight: 400;
-  font-style: normal;
-  text-transform: none;
-  text-rendering: auto;
-  font-size: 30px;
-  text-align: center;
-  position: absolute;
-  right: -37px;
-  color: #fff;
-  top: 4px
+.wpp-team p{
+	text-align: right;
+}
+/*
+.wpp-team-members {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 20px;
 }
 
-div.updated:before {
-  content: "\f12a"
+.wpp-team-member {
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 200px;
+padding: 20px;
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s;
 }
 
-div.update-nag:before {
-  content: "\f534"
+.wpp-team-member:hover {
+transform: translateY(-10px);
 }
 
-.wpp-settings-wrap {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 5px 0 #808080b3;
-  border: 1px solid #adaaaa;
-  overflow: hidden;
-  display: flex;
-  flex-flow: row wrap
+.wpp-team-member .avatar {
+width: 150px;
+height: 150px;
+border-radius: 50%;
+margin-bottom: 10px;
 }
 
-.wpp-settings-wrap .notice,
-.wpp-settings-wrap div.error,
-.wpp-settings-wrap div.updated {
-  position: fixed;
-  z-index: 2;
-  left: 20px;
-  transform: translateY(-150%);
-  border-radius: 5px;
-  box-shadow: 0 0 5px 0 #8080808a
+.wpp-team-member h2 {
+font-size: 1.5em;
+margin: 10px 0;
+}
+*/
+.follow-us .social-links ,
+.wpp-team-member .social-links {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
 }
 
-.wpp-settings-wrap div.updated:after {
-  content: '\f153';
-  left: 0;
-  right: auto;
-  color: #d63638;
-  top: -19px;
-  background: #fff;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 1px solid
+.follow-us .social-links a ,
+.wpp-team-member .social-links a {
+	transition: transform 0.3s;
 }
 
-.wpp-settings-wrap h2:first-child {
-  flex: 1 100%;
-  padding: 10px 20px;
-  background: #1d23270d;
-  color: #181818;
-  text-align: center;
-  border-bottom: 1px solid #adaaaa;
-  box-shadow: inset 0px -5px 5px 0 #8080802b
-}
+/*.follow-us .social-links a:hover ,
+.wpp-team-member .social-links a:hover {
+	transform: scale(1.2);
+}*/
 
-.nav-tab-wrapper {
-  flex: 1 120px;
-  border-width: 0 0 0 1px;
-  border-style: solid;
-  border-color: #c3c4c7;
-  background: #1d23270d;
-  padding: 0 !important;
-  overflow: hidden
-}
-
-.nav-tab-wrapper > a {
-  display: block;
-  width: 100%;
-  margin: 0;
-  padding: 15px;
-  transition: all ease-in-out .3s;
-  border: 0;
-  border-bottom: 1px solid #8080804a;
-  position: relative
-}
-
-.nav-tab-wrapper > a.nav-tab-active:after {
-  content: '\f341';
-  position: absolute;
-  left: 40px;
-  right: auto;
-  top: 12px;
-  color: #797979
-}
-
-[dir="ltr"] .nav-tab-wrapper > a.nav-tab-active::after {
-	transform: scale(-1);
-	right: 40px;
-	left: auto;
-}
-
-#tab_container {
-  flex: 5;
-  padding: 0 15px
+.follow-us .social-links img ,
+.wpp-team-member .social-links img {
+	width: 20px;
 }
 
 
-input[type=checkbox] {
-  opacity: 0;
-  position: absolute
+.contributer-list {
+	position:relative;
+	z-index:2;
+	margin:0 auto;
 }
 
-label.wpp-checkbox-label {
-  position: relative;
-  display: block;
-  background: #f8f8f8;
-  border: 1px solid #f0f0f0;
-  border-radius: 2em;
-  padding: 0.5em 1em 0.5em 5em;
-  box-shadow: 0 1px 2px rgba(100, 100, 100, 0.5) inset, 0 0 10px rgba(100, 100, 100, 0.1) inset;
-  cursor: pointer;
-  text-shadow: 0 2px 2px #fff
+.contributer-list__track {
+	width:fit-content;
+	margin: 0 auto;
 }
 
-label.wpp-checkbox-label.empty-label {
-  display: inline-block;
-  background: #fff0;
-  border: none;
-  padding: 0.5em 0 0.5em 5em;
-  box-shadow: none
+.contributer-list__grid {
+	display:grid;
+	grid-auto-columns:min-content;
+	grid-auto-flow:column;
+	width:fit-content;
+	gap: 24px
+}
+.contributer-list-item {
+	position:relative;
+	width: 120px;
+	height: 150px;
 }
 
-label.wpp-checkbox-label:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0.7em;
-  width: 3em;
-  height: 1.2em;
-  border-radius: 0.6em;
-  background: #eee;
-  transform: translateY(-50%);
-  box-shadow: 0 1px 3px rgba(100, 100, 100, 0.5) inset, 0 0 10px rgba(100, 100, 100, 0.2) inset
+.contributer-list-title{
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
-label.wpp-checkbox-label:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0.5em;
-  width: 1.4em;
-  height: 1.4em;
-  border: 0.25em solid #fafafa;
-  border-radius: 50%;
-  box-sizing: border-box;
-  background-color: #ddd;
-  background-image: linear-gradient(to top, #fff 0%, #fff 40%, transparent 100%);
-  transform: translateY(-50%);
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5)
+.contributer-list-name{
+	font-weight: bold;
+	font-size: 15px;
+	margin-top: 7px;
+	color: #000
 }
 
-label.wpp-checkbox-label,
-label.wpp-checkbox-label:before,
-label.wpp-checkbox-label:after {
-  transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1)
+.contributer-list-title{
+	color: #777
 }
 
-label.wpp-checkbox-label:hover,
-input.wpp-checkbox-label:focus + label {
-  color: black
+.contributer-list-image {
+	display:flex;
+	position:relative;
+	z-index:1;
+	width:100%;
+	height:100%;
+	overflow: hidden;
+	border-radius: 10px;
+}
+.contributer-list-image img {
+	width:100%;
+	height:100%;
+	object-fit:cover;
+	object-position:center center
+}
+.contributer-list-info {
+	position:absolute;
+	z-index:2;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	align-content:flex-end;
+	padding: 15px;
+	background:linear-gradient(180deg, rgba(0,0,0,0) 51.91%, rgba(0,0,0,0.3) 75.88%);
+	overflow: hidden;
+	border-radius: 10px;
+}
+.contributer-list-info>* {
+	display:flex;
+	width:fit-content
+}
+.contributer-list-tags {
+	display:grid;
+	grid-auto-columns:min-content;
+	grid-auto-flow:column;
+	gap:8px;
+	margin: 30px auto 0;
+	padding:0
+}
+.contributer-list-tag {
+	display:flex;
+	-ms-flex-align:center;
+	align-items:center;
+	padding:0;
+	font-size:11px;
+	white-space:nowrap;
+	margin: 0
 }
 
-label.wpp-checkbox-label:hover::after,
-input.wpp-checkbox-label:focus + label::after {
-  background-color: #ccc;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5)
+.contributer-list-tag img{
+  filter: invert(100%) sepia(46%) saturate(2%) hue-rotate(74deg) brightness(119%) contrast(100%);
 }
 
-input[type=checkbox]:checked {
-  counter-increment: total
+
+.wpp-contributors {
+	text-align: center;
+	padding: 50px 0;
 }
 
-input[type=checkbox]:checked + label.wpp-checkbox-label:before {
-  background: #2271B1
+.wpp-contributors h2 {
+	font-size: 2em;
+	margin-bottom: 20px;
 }
 
-input[type=checkbox]:checked + label.wpp-checkbox-label:after {
-  transform: translateX(2em) translateY(-50%)
+#wpp-contributors-list {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
-p.submit {
-  text-align: left;
-  padding: 15px !important;
-  margin: 0 -15px 0;
-  max-width: none;
-  background: #f3f3f4;
-  box-shadow: inset 0px 3px 5px 0 #80808040
+.wpp-contributor {
+	position: relative;
+	margin: 1px;
+	text-align: center;
 }
 
-#submit {
-  padding: 10px 15px
+.wpp-contributor img {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	transition: transform 0.3s;
+}
+
+/*.wpp-contributor:hover img {
+	transform: translateY(-10px);
+}*/
+
+.wpp-contributor .tooltip {
+	visibility: hidden;
+	width: 120px;
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	border-radius: 5px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 125%; /* Position the tooltip above the image */
+	left: 50%;
+	margin-left: -60px;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.wpp-contributor .tooltip::after {
+	content: "";
+	position: absolute;
+	top: 100%; /* Arrow at the bottom of the tooltip */
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #333 transparent transparent transparent;
+}
+
+.wpp-contributor:hover .tooltip {
+	visibility: visible;
+	opacity: 1;
 }

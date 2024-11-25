@@ -68,12 +68,14 @@ add_filter( 'login_headerurl', 'wpp_login_headerurl', 10, 2 );
 function wpp_activation_notice() {
 	$dismissed = get_option( 'wpp_dismissed', false );
 
-	if ( ! $dismissed ) {
+	if ( ! $dismissed && ( ! isset( $_GET['page'] ) || 'wp-parsi-settings' !== $_GET['page'] ) ) {
 		if ( ! wpp_is_active( 'persian_date' ) ) {
+			$dismiss_url = wp_nonce_url( add_query_arg( 'wpp-action', 'dismiss-notice' ), 'wpp_dismiss_notice' );
+
 			echo sprintf(
 				__( '<div class="updated wpp-message"><p>ParsiDate activated, you may need to configure it to work properly. <a href="%s">Go to configuration page</a> &ndash; <a href="%s">Dismiss</a></p></div>', 'wp-parsidate' ),
-				admin_url( 'admin.php?page=wp-parsi-settings' ),
-				esc_url( add_query_arg( 'wpp-action', 'dismiss-notice' ) )
+				esc_url( admin_url( 'admin.php?page=wp-parsi-settings' ) ),
+				esc_url( $dismiss_url ),
 			);
 		}
 	}
@@ -89,6 +91,7 @@ add_action( 'admin_notices', 'wpp_activation_notice' );
  */
 function wpp_dismiss_notice_action() {
 	if ( isset( $_GET['wpp-action'] ) && $_GET['wpp-action'] == 'dismiss-notice' ) {
+		check_admin_referer( 'wpp_dismiss_notice' );
 		update_option( 'wpp_dismissed', true );
 	}
 }
@@ -116,7 +119,14 @@ add_action( 'init', 'wpp_disable_gutenberg_blocks_widget' );
  * @since               1.0
  */
 function wpp_is_feed() {
-	if ( is_feed() ) {
+	global $wp_query;
+
+	if ( ! isset( $wp_query ) ) {
+		return false;
+	}
+
+	//if ( is_feed() ) { // Experimental change
+	if ( $wp_query->is_feed() ) {
 		return true;
 	}
 
@@ -176,7 +186,8 @@ function persian_number( $content ) {
  * @return              array|string|string[]|null
  */
 function fix_number( $content ) {
-	return preg_replace_callback( '/(?:&#\d{2,4};)|(?:[0]?[a-z][\x20-\x3B=\x3F-\x7F]*)|(\d+[\d]*)|<\s*[^>]+>/i', 'persian_number', $content );
+	return preg_replace_callback( '/(?:&#\d{2,4};)|(?:[0]?[a-z][\x20-\x3B=\x3F-\x7F]*)|(?<![>=<][\s*])(\b\d+\b)|<\s*[^>]+>/i', 'persian_number', $content );
+	//return preg_replace_callback( '/(?:&#\d{2,4};)|(?:[0]?[a-z][\x20-\x3B=\x3F-\x7F]*)|(\d+[\d]*)|<\s*[^>]+>/i', 'persian_number', $content );
 }
 
 /**
@@ -187,7 +198,11 @@ function fix_number( $content ) {
  * @return              array|string|string[]
  */
 function fix_arabic( $content ) {
-	return str_replace( array( 'ي', 'ك', '٤', '٥', '٦', 'ة' ), array( 'ی', 'ک', '۴', '۵', '۶', 'ه' ), $content );
+	return str_replace(
+		array( 'ي', 'ك', 'ة', '٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩' ),
+		array( 'ی', 'ک', 'ه', '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹' ),
+		$content,
+	);
 }
 
 /**
@@ -220,9 +235,19 @@ function parsidate_check_format( $format ) {
 		'd-M-Y H:i',*/
 
 		DATE_W3C, // eq `c`
-		DATE_ISO8601, // eq `c`
+		DATE_ATOM, // eq `c`
 		DATE_RFC2822, // eq `r`
 		'Y-m-d\TH:i:s+00:00', // eq `DATE_W3C` @SEE: http://jochenhebbrecht.be/site/node/761
 		'Y-m-d\TH:i:sP',
 	) );
+}
+
+/**
+ * wpp_is_sitemap()
+ * checks is WordPress sitemap
+ *
+ * @return boolean
+ */
+function wpp_is_sitemap() {
+	return ( isset( $_SERVER['REQUEST_URI'] ) and strpos( $_SERVER['REQUEST_URI'], 'wp-sitemap' ) !== false );
 }

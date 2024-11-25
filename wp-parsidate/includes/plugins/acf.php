@@ -18,14 +18,17 @@ class WPP_ACF {
 	 */
 	private function __construct() {
 		$this->settings = array(
-			'version'	=> '1.0.0',
-			'url'		=> WP_PARSI_URL . 'includes/plugins/',
-			'path'		=> WP_PARSI_DIR . 'includes/plugins/'
+			'version' => '1.0.0',
+			'url'     => WP_PARSI_URL . 'includes/plugins/',
+			'path'    => WP_PARSI_DIR . 'includes/plugins/'
 		);
 
 		add_filter( 'wpp_plugins_compatibility_settings', array( $this, 'add_settings' ) );
-		add_action( 'acf/include_field_types', array( $this, 'wpp_acf_include_field' ) ); // v5
-		add_action( 'acf/register_fields', array( $this, 'wpp_acf_include_field' ) ); // v4
+
+		if ( wpp_is_active( 'acf_fix_date' ) ) {
+			add_action( 'acf/include_field_types', array( $this, 'wpp_acf_include_field' ) ); // v5
+			add_action( 'acf/register_fields', array( $this, 'wpp_acf_include_field' ) ); // v4
+		}
 	}
 
 	/**
@@ -51,7 +54,7 @@ class WPP_ACF {
 	 * @since               4.0.0
 	 */
 	public function wpp_acf_include_field( $version = false ) {
-		$version = $version ? (float)$version : 4;
+		$version = $version ? (float) $version : 4;
 
 		include_once( 'acf-fields/class-wpp-acf-datepicker-v' . (float) $version . '.php' );
 		include_once( 'acf-fields/class-wpp-acf-timepicker-v' . (float) $version . '.php' );
@@ -60,16 +63,23 @@ class WPP_ACF {
 	/**
 	 * Adds settings for toggle fixing
 	 *
-	 * @param           array $old_settings Old settings
+	 * @param array $old_settings Old settings
 	 *
 	 * @return          array New settings
 	 */
 	public function add_settings( $old_settings ) {
 		$settings = array(
-			'acf'          => array(
+			'acf'              => array(
 				'id'   => 'acf',
 				'name' => __( 'Advanced Custom Fields (ACF)', 'wp-parsidate' ),
 				'type' => 'header'
+			),
+			'acf_fix_date'     => array(
+				'id'      => 'acf_fix_date',
+				'name'    => __( 'Jalali Datepicker', 'wp-parsidate' ),
+				'type'    => 'checkbox',
+				'options' => 1,
+				'std'     => 0
 			),
 			'acf_persian_date' => array(
 				'id'      => 'acf_persian_date',

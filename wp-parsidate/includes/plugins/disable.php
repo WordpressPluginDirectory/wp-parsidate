@@ -15,7 +15,7 @@ if ( isset( $wpp_settings['dis_input'] ) ) {
 			continue;
 		}
 
-		$dis_hook[ $list[0] ][] = array( 'func' => $list[1], 'class' => ( isset( $list[2] ) ? $list[2] : '' ) );
+		$dis_hook[ $list[0] ][] = array( 'func' => $list[1], 'class' => ( $list[2] ?? '' ) );
 	}
 }
 
@@ -35,7 +35,7 @@ function disable_wpp() {
 	foreach ( $calls as $i => $call ) {
 		unset( $calls[ $i ] );
 
-		if ( $call['function'] == 'apply_filters' && empty( $call['class'] ) ) {
+		if ( $call['function'] === 'apply_filters' && empty( $call['class'] ) ) {
 			break;
 		}
 	}
@@ -48,25 +48,21 @@ function disable_wpp() {
 
 	$hooks = $dis_hook[ $func ];
 
-	if ( empty( $hooks ) ) {
-		return true;
-	}
-
 	unset( $calls[ $i ] );
 
 	foreach ( $calls as $i => $call ) {
 		foreach ( $hooks as $hook ) {
 			$hook['class'] = trim( $hook['class'] );
 
-			if ( ( isset( $call['class'] ) && empty( $hook['class'] ) ) ||( ! isset( $call['class'] ) && ! empty( $hook['class'] ) ) ) {
+			if ( ( isset( $call['class'] ) && empty( $hook['class'] ) ) || ( ! isset( $call['class'] ) && ! empty( $hook['class'] ) ) ) {
 				continue;
 			}
 
-			if ( ! empty( $hook['func'] ) && ( $call['function'] != trim( $hook['func'] ) ) ) {
+			if ( ! empty( $hook['func'] ) && ( $call['function'] !== trim( $hook['func'] ) ) ) {
 				continue;
 			}
 
-			if ( ( ! isset( $call['class'] ) && empty( $hook['class'] ) ) ||$call['class'] == $hook['class'] ) {
+			if ( ( ! isset( $call['class'] ) && empty( $hook['class'] ) ) || $call['class'] === $hook['class'] ) {
 				return false;
 			}
 		}
@@ -93,7 +89,7 @@ function wpp_woocommerce_admin_report_data( $report_data ) {
  * @return array|mixed|string|string[]
  */
 function fix_date_woo_report( $date ) {
-	if ( empty( $_GET['start_date'] ) ||empty( $_GET['end_date'] ) ) {
+	if ( empty( $_GET['start_date'] ) || empty( $_GET['end_date'] ) ) {
 		return $date[0];
 	}
 
@@ -135,11 +131,11 @@ class WPP_Disable {
 	private function __construct() {
 		add_filter( 'wpp_plugins_compatibility_settings', array( $this, 'add_settings' ) );
 
-		if ( ! wpp_is_active( 'dis_prices' )  ) {
+		if ( ! wpp_is_active( 'dis_prices' ) ) {
 			add_filter( 'dis_rial_currency_filter_after', 'per_number', 10, 2 );
 		}
 
-		if ( ! wpp_is_active( 'dis_rial_fix' )  ) {
+		if ( ! wpp_is_active( 'dis_rial_fix' ) ) {
 			add_filter( 'dis_rial_currency_filter_after', array( $this, 'rial_fix' ), 10, 2 );
 		}
 	}
@@ -160,7 +156,7 @@ class WPP_Disable {
 	/**
 	 * RIAL fix for EDD
 	 *
-	 * @param  integer|string  $price  Price Number
+	 * @param integer|string $price Price Number
 	 * @param  $did
 	 *
 	 * @return string
@@ -177,7 +173,7 @@ class WPP_Disable {
 	 * @return          array New settings
 	 */
 	public function add_settings( $old_settings ) {
-		$options  = array(
+		$options = array(
 			'enable'  => __( 'Enable', 'wp-parsidate' ),
 			'disable' => __( 'Disable', 'wp-parsidate' )
 		);

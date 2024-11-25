@@ -12,16 +12,29 @@ defined( 'ABSPATH' ) or exit( 'No direct script access allowed' );
 
 global $wpp_settings;
 
-if ( get_locale() == 'fa_IR' && wpp_is_active( 'persian_date' ) ) {
+if ( get_locale() === 'fa_IR' && wpp_is_active( 'persian_date' ) ) {
 	add_filter( 'the_time', 'wpp_fix_post_time', 10, 2 );
-	add_filter( 'the_date', 'wpp_fix_post_date', 10, 2 );
-	add_filter( 'get_the_time', 'wpp_fix_post_date', 10, 2 );
-	add_filter( 'get_the_date', 'wpp_fix_post_date', 100, 2 );
+	add_filter( 'the_date', 'wpp_fix_post_date', 10, 3 );
+	add_filter( 'get_the_time', 'wpp_fix_post_time', 10, 2 );
+	add_filter( 'get_the_date', 'wpp_fix_post_date', 100, 3 );
 	add_filter( 'get_comment_time', 'wpp_fix_comment_time', 10, 2 );
 	add_filter( 'get_comment_date', 'wpp_fix_comment_date', 10, 2 );
 	//add_filter('get_post_modified_time', 'wpp_fix_post_modified_time', 10, 3);
 	add_filter( 'date_i18n', 'wpp_fix_i18n', 10, 4 );
-	add_filter( 'wp_date', 'wpp_fix_i18n', 10, 4 );
+
+	if ( ! wpp_is_sitemap() ) {
+		add_filter( 'wp_date', 'wpp_fix_i18n', 10, 4 );
+	}
+
+	if ( WP_Parsidate::is_plugin_activated( 'seo-by-rank-math/rank-math.php' ) ) {
+		add_filter( "rank_math/opengraph/facebook/article_published_time", function ( $content ) {
+			return gregdate( 'c', eng_number( $content ) );
+		} );
+
+		add_filter( "rank_math/opengraph/facebook/article_modified_time", function ( $content ) {
+			return gregdate( 'c', eng_number( $content ) );
+		} );
+	}
 }
 
 /**
@@ -32,11 +45,15 @@ if ( get_locale() == 'fa_IR' && wpp_is_active( 'persian_date' ) ) {
  *
  * @return          string Formatted date
  */
-function wpp_fix_post_date( $time, $format = '' ) {
-	global $post;
+function wpp_fix_post_date( $time, $format = '', $post = null ) {
+	if ( null === $post ) {
+		global $post;
+	} else {
+		$post = get_post( $post );
+	}
 
 	// It seems some plugin like acf does not exist $post.
-	if ( empty( $post ) ) {
+	if ( ! $post ) {
 		return $time;
 	}
 
@@ -50,7 +67,6 @@ function wpp_fix_post_date( $time, $format = '' ) {
 
 	return parsidate( $format, date( 'Y-m-d H:i:s', strtotime( $post->post_date ) ), ! wpp_is_active( 'conv_dates' ) ? 'eng' : 'per' );
 }
-
 
 /**
  * Fixes post date and returns to Jalali format
@@ -78,8 +94,12 @@ function wpp_fix_post_modified_time( $time, $format, $gmt ) {
  *
  * @return          string Formatted date
  */
-function wpp_fix_post_time( $time, $format = '' ) {
-	global $post;
+function wpp_fix_post_time( $time, $format = '', $post = null ) {
+	$post = get_post( $post );
+
+	if ( ! $post ) {
+		global $post;
+	}
 
 	if ( empty( $post ) ) {
 		return $time;
@@ -88,6 +108,7 @@ function wpp_fix_post_time( $time, $format = '' ) {
 	if ( empty( $format ) ) {
 		$format = get_option( 'time_format' );
 	}
+
 	if ( ! disable_wpp() ) {
 		return date( $format, strtotime( $post->post_date ) );
 	}
@@ -159,18 +180,14 @@ function wpp_fix_comment_date( $time, $format = '' ) {
  */
 function wpp_fix_i18n( $date, $format, $timestamp, $gmt ) {
 	global $post;
-	$post_id = isset( $post->ID ) ? $post->ID : null;
+
+	//$post_id = ( is_object( $post ) && isset( $post->ID ) ) ? $post->ID : null;
 
 	if ( ! disable_wpp() ) {
 		return $format;
 	}
 
-	if ( $post_id != null && get_post_type( $post_id ) == 'shop_order' && isset( $_GET['post'] ) ) // TODO: Remove after implement convert date for woocommerce
-	{
-		return $date;
-	} else {
-		return parsidate( $format, $timestamp, ! wpp_is_active( 'conv_dates' ) ? 'eng' : 'per' );
-	}
+	return parsidate( $format, $timestamp, ! wpp_is_active( 'conv_dates' ) ? 'eng' : 'per' );
 }
 
 /**

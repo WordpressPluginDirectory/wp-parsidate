@@ -1,10 +1,11 @@
 === Parsi Date ===
 Contributors: lord_viper, man4toman, parselearn, yazdaniwp, saeedfard, iehsanir
 Donate link: https://wp-parsi.com/support/
-Tags: shamsi, wp-parsi, wpparsi, persian, parsi, farsi, jalali, date, calendar, i18n, l10n, iran, iranian, parsidate, rtl, gutenberg, acf,woocommerce
+Tags: shamsi, persian, jalali, date, woocommerce
 Requires at least: 5.3
-Tested up to: 6.1.1
-Stable tag: 4.0.2
+Tested up to: 6.6.1
+Stable tag: 5.1.2
+License: GPLv3
 
 Persian date support for WordPress
 
@@ -40,21 +41,61 @@ List of some features:
 == Screenshots ==
 
 1. Plugin main settings
-2. Number conversions settings
-3. Other plugin compatibility
-4. Persian datepicker in WooCommerce
-5. Persian date type in ACF
+2. Conversions settings
+3. Tools
+4. Other plugin compatibility
+5. Persian datepicker in WooCommerce
+6. Persian date type in ACF
 
 == Changelog ==
 
-= 4.0.2 =
-* Fix security vulnerability reported with 'add_query_arg()' function
+= 5.1.2 =
+* Fix some reported bugs
+* Fix security issue
+* Fix translation problem in new version of WordPress
 
-= 4.0.1 =
-* Fix showing English number in admin and frontend
-* Add setting for Vazir font
-* Fix showing zero for time in output
+= 5.1.1 =
+* Fix Woo mails dates direction
+* Fix Fatal error in Woo product edit screen 
+* Fix in_array() fetal error in 8.1 
+* Remove error_log 
 
+= 5.1.0 =
+* HPOS compatible
+* Block-based gateways Woocommerce
+* Iranian cities for Woocommerce
+* Persian datepicker in Block editor 
+* Fixed conflict with Jetpack.
+* Resolved dashboard page warning.
+* Addressed conflict with DATE_W3C format.
+* Fixed date problem in comments feed.
+* Resolved error while saving ACF fields.
+* Fixed "Undefined index: date_i18n" notice.
+* Addressed notice error in archive.php pages.
+* Resolved conflicts with RevSlider.
+* Fixed date conversion problem in WordPress 5.3.
+* Addressed conflict with get_the_modified_date.
+* Fixed Parsi Widget error.
+* Resolved "Undefined index: wp_date" notice in disable.php.
+* Fixed WooCommerce order detail issue.
+* Addressed conflict with Polylang and WPML.
+* Fixed duplicate activity date in the dashboard.
+* Resolved type error in editor date picker.
+* Fixed direction problem in the legacy editor.
+* Corrected wrong callback in get_the_time hook.
+* Addressed default timezone problem.
+* Displaying "@" instead of "at" in the Jalali version.
+* Added Persian numbers in WooCommerce prices.
+* Improved support for Persian dates in WooCommerce.
+* Added Persian date picker in WooCommerce.
+* Added ACF Parsi date.
+* Mini support for WPML and Polylang.
+* Updated calendar widgets.
+* Updated attachments filter dropdown.
+* New looks and feels for the settings panel.
+* Added Vazir font to the admin area.
+* Fix convert order date to Gregorian in edit order screen.
+* Compatiblity with WordPress 6.5x and WooCommerce 8.7x.
 
 = 4.0.0 =
 * This release contains huge bug fix:
@@ -116,7 +157,7 @@ List of some features:
 * New fix for hook disabler
 
 = 2.3.4 =
-* Fix diagnosis leap year function ( bn_parsidate::IsLeapYear() )
+* Fix diagnosis leap year function ( WPP_ParsiDate::IsLeapYear() )
 
 = 2.3.3 =
 * Fix WooCommerce Sale Price Dates (From/To)
